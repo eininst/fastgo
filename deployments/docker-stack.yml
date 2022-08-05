@@ -1,0 +1,118 @@
+version: '3.9'
+networks:
+  nft:
+
+services:
+  nginx:
+    image: registry.cn-zhangjiakou.aliyuncs.com/eininst/tengine_pod:huiyan
+    volumes:
+      - "/root/nft-go/nginx/nginx.conf:/etc/nginx/nginx.conf"
+      - "/root/nft-go/nginx/conf:/etc/nginx/conf"
+      - "/root/nft-go/nginx/static:/etc/nginx/static"
+    logging:
+      options:
+        max-size: '1024m'
+        max-file: '2'
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    healthcheck:
+      interval: 5s
+      timeout: 10s
+      test: [ "CMD-SHELL", "curl -f http://localhost/status || exit 1" ]
+    labels:
+      - "nginx"
+    networks:
+      - nft
+    deploy:
+      mode: global
+      placement:
+        constraints: [ node.role == manager ]
+      update_config:
+        delay: 5s
+        parallelism: 1
+        order: start-first
+
+
+  api:
+    image: registry.cn-zhangjiakou.aliyuncs.com/eininst/nft-go-api:huiyan
+    environment:
+      - PROFILE=production
+    logging:
+      options:
+        max-size: '1024m'
+        max-file: '2'
+
+    ports:
+      - "8080:8080"
+    restart: always
+    healthcheck:
+      interval: 5s
+      timeout: 10s
+      test: [ "CMD-SHELL", "curl -f http://localhost:8080/status || exit 1" ]
+    networks:
+      - nft
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        #        reservations:
+        #          cpus: "1.00"
+        #          memory: 512M
+        limits:
+          cpus: "1.00"
+          memory: 512M
+      placement:
+        constraints: [ node.role == worker ]
+      update_config:
+        delay: 5s
+        parallelism: 1
+        order: start-first
+
+  mp:
+    image: registry.cn-zhangjiakou.aliyuncs.com/eininst/nft-go-mp:huiyan
+    environment:
+      - PROFILE=production
+    logging:
+      options:
+        max-size: '1024m'
+        max-file: '2'
+    ports:
+      - "8001:8001"
+    restart: always
+    healthcheck:
+      interval: 5s
+      timeout: 10s
+      test: [ "CMD-SHELL", "curl -f http://localhost:8001/status || exit 1" ]
+    networks:
+      - nft
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: "1.00"
+          memory: 512M
+      placement:
+        constraints: [ node.role == worker ]
+      update_config:
+        delay: 5s
+        parallelism: 1
+        order: start-first
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "7000:7000"
+    stop_grace_period: 1m30s
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [ node.role == manager ]
+
+volumes:
+  influx:
+    driver: local
+  grafana:
+    driver: local
