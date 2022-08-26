@@ -1,0 +1,32 @@
+version: '3.9'
+networks:
+  g:
+
+services:
+  nginx:
+    image: registry.cn-zhangjiakou.aliyuncs.com/eininst/nginx:latest
+    logging:
+      options:
+        max-size: '1024m'
+        max-file: '2'
+    ports:
+      - "80:80"
+      - "443:443"
+    healthcheck:
+      interval: 5s
+      timeout: 10s
+      test: [ "CMD-SHELL", "curl -f http://localhost/status || exit 1" ]
+      retries: 3
+      start_period: 1s
+    labels:
+      - "test"
+    networks:
+      - g
+    deploy:
+      mode: global
+      placement:
+        constraints: [ node.role == manager ]
+      update_config:
+        delay: 5s
+        parallelism: 1
+        order: start-first

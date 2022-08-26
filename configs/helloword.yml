@@ -1,3 +1,8 @@
+app: fastgo
+
+---
+profile: dev
+
 port: 8001
 mode: debug
 
@@ -18,6 +23,15 @@ redis:
   poolSize: 100
   minIdleCount: 20
 
+mysql:
+  dsn: test:test123@tcp(localhost:3306)/nft?charset=utf8mb4&parseTime=True&loc=Local
+  maxIdleCount: 32
+  maxOpenCount: 128
+  maxLifetime: 7200
+
+---
+profile: test
+port: 8002
 mysql:
   dsn: test:test123@tcp(localhost:3306)/nft?charset=utf8mb4&parseTime=True&loc=Local
   maxIdleCount: 32

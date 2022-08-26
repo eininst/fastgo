@@ -3,7 +3,7 @@ package rdb
 import (
 	"context"
 	"encoding/json"
-	"github.com/eininst/fastgo/configs"
+	"fastgo2/configs"
 	"github.com/go-redis/redis/v8"
 	"log"
 	"sync"
@@ -50,6 +50,6 @@ func Setup() {
 		}
 		log.Println("Connected to Redis server...")
 
-		//LoadScript()
+		LoadScript()
 	})
 }

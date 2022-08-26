@@ -1,35 +1,34 @@
 package main
 
 import (
-	"fmt"
-	"github.com/eininst/fastgo/api/helloword"
-	"github.com/eininst/fastgo/configs"
-	"github.com/eininst/fastgo/tools/grace"
-	"github.com/eininst/fastgo/tools/serr"
-	"github.com/gin-gonic/gin"
+	"fastgo2/api/helloword"
+	"fastgo2/configs"
+	"fastgo2/pkg/grace"
+	"fastgo2/pkg/redoc"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"log"
-	"math/rand"
-	"net/http"
 	"time"
 )
 
 func init() {
 	log.SetFlags(log.Lshortfile | log.LstdFlags)
-	rand.Seed(time.Now().UnixNano())
-
-	configs.Setup("configs/config.yml")
-	//db.Setup()
-	//rdb.Setup()
+	configs.Setup("./configs/helloword.yml")
 }
+
 func main() {
-	r := gin.New()
-	r.Use(gin.Logger(), gin.CustomRecovery(serr.ErrorRecovery))
-
-	helloword.Install(r)
-	addr := fmt.Sprintf(":%v", "8080")
-
-	grace.Run("./main.go", &http.Server{
-		Addr:    addr,
-		Handler: r,
-	}, time.Second*10)
+	app := fiber.New(fiber.Config{
+		Prefork:     false,
+		ReadTimeout: time.Second * 10,
+	})
+	app.Use(logger.New(logger.Config{
+		Format:     "[Fiber] ${time} |${black}${status}|${latency}|${blue}${method} ${url}\n",
+		TimeFormat: "2006/01/02 - 15:04:05",
+	}))
+	app.Get("/doc/*", redoc.New("./api/helloword/swagger.json"))
+	app.Get("/status", func(c *fiber.Ctx) error {
+		return c.SendStatus(fiber.StatusOK)
+	})
+	helloword.Install(app)
+	grace.Listen(app, ":8080")
 }

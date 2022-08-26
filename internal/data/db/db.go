@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
-	"github.com/eininst/fastgo/configs"
+	"fastgo2/configs"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -30,9 +30,6 @@ func Session(ctx context.Context) *gorm.DB {
 	return db.WithContext(ctx)
 }
 
-func init() {
-	log.SetFlags(log.Lshortfile | log.LstdFlags)
-}
 func Setup() {
 	mstr := configs.Get("mysql").String()
 	var dbconfig DbConfig

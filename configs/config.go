@@ -12,20 +12,39 @@ var data map[string]any
 var ret gjson.Result
 
 func Setup(conf_path string) {
-	buffer, err := os.ReadFile(conf_path)
-	if err != nil {
-		log.Fatal(err)
+	profile := os.Getenv("ENV")
+	if profile == "" {
+		profile = "dev"
 	}
-	err = yaml.Unmarshal(buffer, &data)
-	if err != nil {
-		log.Fatal(err)
-	}
+	log.Println("profile is:", profile)
 
-	newValue, er := json.Marshal(&data)
+	file, err := os.Open(conf_path)
+	defer func() { _ = file.Close() }()
+	if err != nil {
+		log.Fatal(err)
+	}
+	dec := yaml.NewDecoder(file)
+	err = dec.Decode(&data)
+
+	for {
+		var t map[string]interface{}
+		err = dec.Decode(&t)
+		if err != nil {
+			break
+		}
+		if p, ok := t["profile"]; ok {
+			if p == profile {
+				data = merge(data, t)
+				break
+			}
+		}
+	}
+	v, er := json.Marshal(&data)
 	if er != nil {
 		log.Println(er)
 	}
-	ret = gjson.Parse(string(newValue))
+	log.Println(string(v))
+	ret = gjson.Parse(string(v))
 }
 
 func Get(path ...string) gjson.Result {
@@ -38,4 +57,15 @@ func Get(path ...string) gjson.Result {
 		}
 	}
 	return r
+}
+
+func merge(m1 map[string]any, m2 map[string]any) map[string]any {
+	n := make(map[string]any)
+	for k, v := range m1 {
+		n[k] = v
+	}
+	for k, v := range m2 {
+		n[k] = v
+	}
+	return n
 }

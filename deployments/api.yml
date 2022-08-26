@@ -1,0 +1,36 @@
+version: '3.9'
+networks:
+  g:
+
+services:
+  helloword:
+    image: registry.cn-zhangjiakou.aliyuncs.com/eininst/helloword:latest
+    networks:
+      - g
+    environment:
+      - ENV=${ENV}
+    logging:
+      options:
+        max-size: '1024m'
+        max-file: '2'
+    ports:
+      - "8080:8080"
+    healthcheck:
+      interval: 5s
+      timeout: 10s
+      test: [ "CMD-SHELL", "curl -f http://localhost:8080/status || exit 1" ]
+      retries: 3
+      start_period: 5s
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: "1.00"
+          memory: 512M
+      placement:
+        constraints: [ node.role == manager ]
+      update_config:
+        delay: 5s
+        parallelism: 1
+        order: start-first
