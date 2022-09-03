@@ -1,10 +1,9 @@
 package db
 
 import (
-	"context"
 	"database/sql"
 	"encoding/json"
-	"fastgo2/configs"
+	"fastgo/configs"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -23,14 +22,7 @@ type DbConfig struct {
 	MaxLifetime  time.Duration `json:"maxLifetime"`
 }
 
-func Get() *gorm.DB {
-	return db
-}
-func Session(ctx context.Context) *gorm.DB {
-	return db.WithContext(ctx)
-}
-
-func Setup() {
+func New() *gorm.DB {
 	mstr := configs.Get("mysql").String()
 	var dbconfig DbConfig
 	_ = json.Unmarshal([]byte(mstr), &dbconfig)
@@ -72,4 +64,6 @@ func Setup() {
 	sqlDB.SetConnMaxLifetime(dbconfig.MaxLifetime * time.Second)
 
 	log.Println("Connected to Mysql server...")
+
+	return db
 }

@@ -2,6 +2,7 @@ package configs
 
 import (
 	"encoding/json"
+	"github.com/eininst/flog"
 	"github.com/tidwall/gjson"
 	"gopkg.in/yaml.v3"
 	"log"
@@ -16,7 +17,7 @@ func Setup(conf_path string) {
 	if profile == "" {
 		profile = "dev"
 	}
-	log.Println("profile is:", profile)
+	flog.Infof("profile is: %s", profile)
 
 	file, err := os.Open(conf_path)
 	defer func() { _ = file.Close() }()
@@ -43,7 +44,6 @@ func Setup(conf_path string) {
 	if er != nil {
 		log.Println(er)
 	}
-	log.Println(string(v))
 	ret = gjson.Parse(string(v))
 }
 

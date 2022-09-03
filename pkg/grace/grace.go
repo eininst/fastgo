@@ -170,7 +170,7 @@ func stopChild(timeout time.Duration) {
 	ctx, cancel := context.WithTimeout(context.TODO(), timeout)
 	defer cancel()
 	for {
-		time.Sleep(time.Millisecond * 200)
+		time.Sleep(time.Millisecond * 100)
 		select {
 		case <-ctx.Done():
 			return

@@ -12,13 +12,15 @@
 package helloword
 
 import (
-	v1 "fastgo2/api/helloword/v1"
+	v1 "fastgo/api/helloword/v1"
 	"github.com/gofiber/fiber/v2"
 )
 
-func Install(app *fiber.App) {
-	app.Get("/hello", v1.HelloWorld)
-	app.Get("/test", func(ctx *fiber.Ctx) error {
-		return ctx.SendString("2")
-	})
+type Router struct {
+	*fiber.App
+	HellowordApi *v1.HellowordApi `inject:""`
+}
+
+func (r *Router) Register() {
+	r.Get("/hello", r.HellowordApi.Add)
 }

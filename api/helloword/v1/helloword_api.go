@@ -1,20 +1,25 @@
 package v1
 
 import (
+	"fastgo/internal/service/user"
+	"fastgo/pkg/ioc"
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 )
 
-type request struct {
-	RequestField string
+func init() {
+	ioc.Provide(&HellowordApi{})
 }
 
-type response struct {
-	ResponseField string
+type HellowordApi struct {
+	UserService user.UserService `inject:""`
 }
 
 // @Param request body v1.request true "query params"
-// @Success 200 {object} v1.response
+// @Success 200 {object} v1.HellowordApi.response
 // @Router /test [post]
-func HelloWorld(c *fiber.Ctx) error {
-	return c.JSON(fiber.Map{"name": "hello wolrd!"})
+func (h *HellowordApi) Add(c *fiber.Ctx) error {
+	fmt.Println(h.UserService)
+	h.UserService.Add()
+	return c.JSON("hello")
 }
