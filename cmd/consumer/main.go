@@ -4,8 +4,6 @@ import (
 	"fastgo/configs"
 	"fastgo/internal/conf"
 	"fastgo/internal/consumer"
-	"fastgo/internal/data/rdb"
-	"fastgo/pkg/di"
 	"github.com/eininst/flog"
 	"github.com/eininst/rs"
 	"os"
@@ -20,7 +18,7 @@ func init() {
 }
 
 func main() {
-	cli := rs.New(rdb.Get(), rs.Config{
+	c := consumer.New(rs.Config{
 		Receive: rs.ReceiveConfig{
 			Work:       rs.Int(10),
 			ReadCount:  rs.Int64(1),
@@ -29,19 +27,16 @@ func main() {
 			Timeout:    time.Second * 20,
 		},
 	})
-	c := &consumer.Conf{Client: cli}
-	di.Inject(c)
-	di.Populate()
+	c.Subscribe()
 
-	c.Install()
 	go func() {
 		quit := make(chan os.Signal)
 		signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
 		<-quit
 
-		cli.Shutdown()
+		c.Client.Shutdown()
 		flog.Info("Graceful Shutdown")
 	}()
 
-	cli.Listen()
+	c.Client.Listen()
 }

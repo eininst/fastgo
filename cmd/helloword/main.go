@@ -5,7 +5,6 @@ import (
 	"fastgo/configs"
 	"fastgo/internal/conf"
 	"fastgo/pkg/burst"
-	"fastgo/pkg/di"
 	"fastgo/pkg/grace"
 	"fastgo/pkg/redoc"
 	"github.com/gofiber/fiber/v2"
@@ -35,10 +34,8 @@ func main() {
 	}))
 	app.Get("/doc/*", redoc.New("./docs/helloword_swagger.json"))
 
-	router := &helloword.Router{Router: app}
-	di.Inject(router)
-	di.Populate()
-
+	router := helloword.NewRouter(app)
 	router.Register()
+
 	grace.Listen(app, ":8080")
 }

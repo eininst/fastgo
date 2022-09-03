@@ -10,11 +10,11 @@ import (
 func Inject() {
 	//inject resources
 	rcli := data.NewRedisClient()
-	db := data.NewDB()
+	//db := data.NewDB()
 	lock := rlock.New(rcli)
 
 	di.Inject(rcli)
-	di.Inject(db)
+	//di.Inject(db)
 	di.Inject(lock)
 
 	//inject services
