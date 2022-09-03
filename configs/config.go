@@ -35,7 +35,9 @@ func Setup(conf_path string) {
 		}
 		if p, ok := t["profile"]; ok {
 			if p == profile {
-				data = merge(data, t)
+				for k, v := range t {
+					data[k] = v
+				}
 				break
 			}
 		}
@@ -57,15 +59,4 @@ func Get(path ...string) gjson.Result {
 		}
 	}
 	return r
-}
-
-func merge(m1 map[string]any, m2 map[string]any) map[string]any {
-	n := make(map[string]any)
-	for k, v := range m1 {
-		n[k] = v
-	}
-	for k, v := range m2 {
-		n[k] = v
-	}
-	return n
 }

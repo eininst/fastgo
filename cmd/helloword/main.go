@@ -33,12 +33,9 @@ func main() {
 		Limiter: rate.NewLimiter(rate.Every(time.Millisecond*100), 20),
 		Timeout: time.Second * 5,
 	}))
-	app.Get("/doc/*", redoc.New("./api/helloword/swagger.json"))
-	app.Get("/status", func(c *fiber.Ctx) error {
-		return c.SendStatus(fiber.StatusOK)
-	})
+	app.Get("/doc/*", redoc.New("./docs/helloword_swagger.json"))
 
-	router := &helloword.Router{App: app}
+	router := &helloword.Router{Router: app}
 	ioc.Provide(router)
 	ioc.Populate()
 

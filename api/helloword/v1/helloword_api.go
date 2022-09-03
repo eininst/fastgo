@@ -15,8 +15,6 @@ type HellowordApi struct {
 	UserService user.UserService `inject:""`
 }
 
-// @Param request body v1.request true "query params"
-// @Success 200 {object} v1.HellowordApi.response
 // @Router /test [post]
 func (h *HellowordApi) Add(c *fiber.Ctx) error {
 	fmt.Println(h.UserService)

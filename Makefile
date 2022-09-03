@@ -9,7 +9,7 @@ swagger:
 	sh $(CURDIR)/scripts/swagger.sh
 
 doc:
-	swag init -g router.go -d ./api/helloword -o ./api/helloword -ot json --pd
+	swag init -g router.go -d ./api/helloword -o ./docs -ot json --instanceName helloword-
 
 init:
 	sh $(CURDIR)/scripts/swarm.sh
