@@ -1,4 +1,4 @@
-package ioc
+package di
 
 import (
 	"github.com/facebookgo/inject"
@@ -6,7 +6,7 @@ import (
 
 var graph inject.Graph
 
-func Provide(objects ...interface{}) {
+func Inject(objects ...interface{}) {
 	for _, obj := range objects {
 		err := graph.Provide(&inject.Object{Value: obj})
 		if err != nil {

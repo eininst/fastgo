@@ -1,14 +1,14 @@
 package sub
 
 import (
-	"fastgo/pkg/ioc"
+	"fastgo/pkg/di"
 	"github.com/eininst/flog"
 	"github.com/eininst/rs"
 	"github.com/go-redis/redis/v8"
 )
 
 func init() {
-	ioc.Provide(&OrderSub{})
+	di.Inject(&OrderSub{})
 }
 
 type OrderSub struct {

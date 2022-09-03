@@ -2,13 +2,13 @@ package v1
 
 import (
 	"fastgo/internal/service/user"
-	"fastgo/pkg/ioc"
+	"fastgo/pkg/di"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 )
 
 func init() {
-	ioc.Provide(&HellowordApi{})
+	di.Inject(&HellowordApi{})
 }
 
 type HellowordApi struct {

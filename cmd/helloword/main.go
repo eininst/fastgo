@@ -5,8 +5,8 @@ import (
 	"fastgo/configs"
 	"fastgo/internal/conf"
 	"fastgo/pkg/burst"
+	"fastgo/pkg/di"
 	"fastgo/pkg/grace"
-	"fastgo/pkg/ioc"
 	"fastgo/pkg/redoc"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -21,7 +21,7 @@ func init() {
 
 func main() {
 	app := fiber.New(fiber.Config{
-		Prefork:     false,
+		Prefork:     true,
 		ReadTimeout: time.Second * 10,
 	})
 	app.Use(logger.New(logger.Config{
@@ -36,10 +36,9 @@ func main() {
 	app.Get("/doc/*", redoc.New("./docs/helloword_swagger.json"))
 
 	router := &helloword.Router{Router: app}
-	ioc.Provide(router)
-	ioc.Populate()
+	di.Inject(router)
+	di.Populate()
 
 	router.Register()
-
 	grace.Listen(app, ":8080")
 }
