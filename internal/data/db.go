@@ -1,4 +1,4 @@
-package db
+package data
 
 import (
 	"database/sql"
@@ -13,18 +13,15 @@ import (
 	"time"
 )
 
-var db *gorm.DB
+func NewDB() *gorm.DB {
+	var dbconfig struct {
+		Dsn          string        `json:"dsn"`
+		MaxIdleCount int           `json:"maxIdleCount"`
+		MaxOpenCount int           `json:"maxOpenCount"`
+		MaxLifetime  time.Duration `json:"maxLifetime"`
+	}
 
-type DbConfig struct {
-	Dsn          string        `json:"dsn"`
-	MaxIdleCount int           `json:"maxIdleCount"`
-	MaxOpenCount int           `json:"maxOpenCount"`
-	MaxLifetime  time.Duration `json:"maxLifetime"`
-}
-
-func New() *gorm.DB {
 	mstr := configs.Get("mysql").String()
-	var dbconfig DbConfig
 	_ = json.Unmarshal([]byte(mstr), &dbconfig)
 
 	sqlDB, err := sql.Open("mysql", dbconfig.Dsn)
@@ -54,7 +51,6 @@ func New() *gorm.DB {
 	if err != nil {
 		panic(err)
 	}
-	db = gormDB
 	perr := sqlDB.Ping()
 	if perr != nil {
 		log.Fatal(err)
@@ -65,5 +61,5 @@ func New() *gorm.DB {
 
 	log.Println("Connected to Mysql server...")
 
-	return db
+	return gormDB
 }

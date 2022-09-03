@@ -1,17 +1,21 @@
 package conf
 
 import (
-	"fastgo/internal/data/rdb"
+	"fastgo/internal/data"
 	"fastgo/internal/service/user"
 	"fastgo/pkg/di"
 	"github.com/eininst/rlock"
 )
 
 func Inject() {
-	rcli := rdb.New()
+	//inject resources
+	rcli := data.NewRedisClient()
+	db := data.NewDB()
+	lock := rlock.New(rcli)
+
 	di.Inject(rcli)
-	//ioc.Provide(db.New())
-	di.Inject(rlock.New(rcli))
+	di.Inject(db)
+	di.Inject(lock)
 
 	//inject services
 	di.Inject(user.NewUserService())

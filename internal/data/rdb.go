@@ -1,4 +1,4 @@
-package rdb
+package data
 
 import (
 	"context"
@@ -10,28 +10,19 @@ import (
 	"time"
 )
 
-type redisConf struct {
-	Addr         string `json:"addr"`
-	Db           int    `json:"db"`
-	PoolSize     int    `json:"poolSize"`
-	MinIdleCount int    `json:"minIdleCount"`
-	Password     string `json:"password"`
-}
-
-var rcli *redis.Client
-
-var ctx = context.TODO()
-
-func Get() *redis.Client {
-	return rcli
-}
-
-func New() *redis.Client {
-	var rconf redisConf
+func NewRedisClient() *redis.Client {
+	var ctx = context.TODO()
+	var rconf struct {
+		Addr         string `json:"addr"`
+		Db           int    `json:"db"`
+		PoolSize     int    `json:"poolSize"`
+		MinIdleCount int    `json:"minIdleCount"`
+		Password     string `json:"password"`
+	}
 	rstr := configs.Get("redis").String()
 	_ = json.Unmarshal([]byte(rstr), &rconf)
 
-	rcli = redis.NewClient(&redis.Options{
+	rcli := redis.NewClient(&redis.Options{
 		Addr:         rconf.Addr,
 		Password:     rconf.Password,
 		DB:           rconf.Db,
