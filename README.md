@@ -1,41 +1,63 @@
 ```
-egg-project
-├── package.json
-├── app.js (可选)
-├── agent.js (可选)
-├── app
-|   ├── router.js
-│   ├── controller
-│   |   └── home.js
-│   ├── service (可选)
-│   |   └── user.js
-│   ├── middleware (可选)
-│   |   └── response_time.js
-│   ├── schedule (可选)
-│   |   └── my_task.js
-|   |── eeeee
-│   |   └── my_task.js
-│   ├── public (可选)
-│   |   └── reset.css
-│   ├── view (可选)
-│   |   └── home.tpl
-│   └── extend (可选)
-│       ├── helper.js (可选)
-│       ├── request.js (可选)
-│       ├── response.js (可选)
-│       ├── context.js (可选)
-│       ├── application.js (可选)
-│       └── agent.js (可选)
-├── config
-|   ├── plugin.js
-|   ├── config.default.js
-│   ├── config.prod.js
-|   ├── config.test.js (可选)
-|   ├── config.local.js (可选)
-|   └── config.unittest.js (可选)
-└── test
-    ├── middleware
-    |   └── response_time.test.js
-    └── controller
-        └── home.test.js
+project
+├── api
+│   ├── helloword
+│   |   └── v1
+│   │       └── helloword_api.go
+├── build
+|   ├── start.sh
+├── cmd
+|   ├── helloword
+│   |   └── main.go (启动程序)
+├── configs (配置文件)
+|   ├── config.go
+|   ├── helloword.yml
+│   │
+├── configs (配置文件)
+|   ├── config.go
+|   ├── helloword.yml
+├── deployments (部署配置)
+|   ├── api.yml
+|   ├── nginx.yml
+├── docs (项目文档)
+|   ├── helloword_swagger.json
+├── internal
+│   ├── conf
+│   |   └── conf.go (内部资源初始化)
+│   ├── data
+│   |   └── db.go (数据库配置)
+│   |   └── rdb.go (Redis配置)
+│   ├── model
+│   |   └── model.go (POJO对象)
+│   ├── service
+│   |   └── user
+│   │       └── user_service.go
+│   │       └── type.go
+│   ├── types
+│   |   └── types.go (公用对象)
+├── nginx
+│   ├── conf
+│   |   └── helloword.conf (应用nginx配置文件)
+│   ├── ssl
+│   |   └── xxxxx.pem
+│   |   └── xxxxx.key
+|   ├── Dockerfile
+|   ├── nginx.conf (全局nginx配置)
+├── pkg (公共模块)
+│   ├── burst
+│   ├── di
+|   ├── grace
+|   ├── redoc
+├── scripts (Makefile执行的sh文件)
+│   ├── swarm.sh
+│   ├── swagger.sh
+├── test (测试)
+│   ├── xxxx.go
+├── website (网站页面)
+│   ├── xxxx.html
+│   ├── xxxx.html
+├── Dockerfile
+├── go.mod
+├── Makefile
+├── README.md
 ```
