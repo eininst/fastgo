@@ -30,7 +30,7 @@ func IsReload() bool {
 
 var DefaultTimeout = time.Second * 10
 
-var pids []int
+var pidMap map[int]int
 
 func Listen(app *fiber.App, addr string, timeout ...time.Duration) {
 	t := DefaultTimeout
@@ -39,9 +39,9 @@ func Listen(app *fiber.App, addr string, timeout ...time.Duration) {
 	}
 	go func() {
 		if app.Config().Prefork {
-			pids = []int{}
+			pidMap = make(map[int]int)
 			app.Hooks().OnFork(func(i int) error {
-				pids = append(pids, i)
+				pidMap[i] = i
 				return nil
 			})
 			_ = app.Listen(addr)
@@ -64,9 +64,9 @@ func ListenTLS(app *fiber.App, addr string, certFile, keyFile string, timeout ..
 	}
 	go func() {
 		if app.Config().Prefork {
-			pids = []int{}
+			pidMap = make(map[int]int)
 			app.Hooks().OnFork(func(i int) error {
-				pids = append(pids, i)
+				pidMap[i] = i
 				return nil
 			})
 			_ = app.ListenTLS(addr, certFile, keyFile)
@@ -134,7 +134,7 @@ func listenSig(app *fiber.App, timeout time.Duration) {
 				if app.Config().Prefork {
 					stopChild(timeout)
 					_ = app.Shutdown()
-					for _, key := range pids {
+					for key := range pidMap {
 						_ = syscall.Kill(key, syscall.SIGINT)
 					}
 				} else {
@@ -167,11 +167,6 @@ func stop(app *fiber.App, timeout time.Duration) {
 
 }
 func stopChild(timeout time.Duration) {
-	pidMap := make(map[int]int)
-	for _, key := range pids {
-		_ = syscall.Kill(key, syscall.SIGTERM)
-		pidMap[key] = key
-	}
 	ctx, cancel := context.WithTimeout(context.TODO(), timeout)
 	defer cancel()
 
@@ -201,7 +196,7 @@ func stopChild(timeout time.Duration) {
 				}
 			}
 
-			if okCount == len(pids) {
+			if okCount == len(pidMap) {
 				cancel()
 				return
 			}

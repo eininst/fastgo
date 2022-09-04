@@ -17,5 +17,5 @@ type HellowordApi struct {
 // @Router /test [post]
 func (h *HellowordApi) Add(c *fiber.Ctx) error {
 	h.UserService.Add()
-	return c.JSON("hello")
+	return c.JSON("hello123")
 }
