@@ -26,8 +26,15 @@ RUN apk --no-cache add tzdata  && \
     echo "Asia/Shanghai" > /etc/timezone \
 
 WORKDIR /app
+
+RUN apk add dumb-init
+
 # COPY 源路径 目标路径 从镜像中 COPY
 COPY --from=builder /app /app
 
 WORKDIR /app
-ENTRYPOINT ["./run"]
+
+EXPOSE 8080
+
+ENTRYPOINT ["/usr/bin/dumb-init",  "--"]
+CMD ./run

@@ -17,7 +17,7 @@ oauth:
   secretKey: b723f7a6aa9342b199361c3600abe738
 
 redis:
-  addr: localhost:6379
+  addr: kubernetes.docker.internal:6379
   db: 0
   poolSize: 100
   minIdleCount: 20

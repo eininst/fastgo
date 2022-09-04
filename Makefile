@@ -1,6 +1,7 @@
 registry_mirrors = registry.cn-zhangjiakou.aliyuncs.com
 username = youyin319
 namespace = eininst
+group = g
 
 start:
 	sh $(CURDIR)/build/start.sh ${env}
@@ -15,7 +16,7 @@ init:
 	sh $(CURDIR)/scripts/swarm.sh
 
 deploy:
-	docker stack deploy --with-registry-auth -c deployments/$(yml).yml srv
+	docker stack deploy --with-registry-auth -c deployments/$(yml).yml $(group)
 
 build:
 ifeq (${f},)
@@ -32,22 +33,22 @@ push:
 update:
 	docker service update --force --image \
 	`sh $(CURDIR)/scripts/yaml.sh $(CURDIR)/deployments/${yml}.yml services_$(app)_image` \
-	srv_${app}
+	$(group)_${app}
 
 stop:
 ifeq (${srv},)
-	docker stack rm srv
+	docker stack rm $(group)
 else
-	docker service rm srv_${srv}
+	docker service rm $(group)_${srv}
 endif
 
 fab:
-	make build app=${app}
+	make build app=${app} f=${f}
 	make push app=${app}
 	make update yml=${yml} app=${app}
 
 log:
-	docker service logs -f --tail 200 srv_${app}
+	docker service logs -f --tail 200 $(group)_${app}
 
 login:
 	docker login --username=$(username) $(registry_mirrors)

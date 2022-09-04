@@ -18,15 +18,15 @@ services:
     healthcheck:
       interval: 5s
       timeout: 10s
-      test: [ "CMD-SHELL", "curl -f http://localhost:8080/status || exit 1" ]
-      retries: 3
+      test: [ "CMD-SHELL", "curl -f http://127.0.0.1:8080/status || exit 1" ]
+      retries: 300
       start_period: 2s
     deploy:
       mode: replicated
       replicas: 1
       resources:
         limits:
-          cpus: "1.00"
+#          cpus: "1.00"
           memory: 512M
       placement:
         constraints: [ node.role == manager ]

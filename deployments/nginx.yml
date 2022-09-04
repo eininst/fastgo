@@ -15,7 +15,7 @@ services:
     healthcheck:
       interval: 5s
       timeout: 10s
-      test: [ "CMD-SHELL", "curl -f http://localhost/status || exit 1" ]
+      test: [ "CMD-SHELL", "curl -f http://127.0.0.1/status || exit 1" ]
       retries: 3
       start_period: 1s
     labels:

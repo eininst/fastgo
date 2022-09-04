@@ -44,7 +44,7 @@ func New(docSrc string, config ...Config) fiber.Handler {
 		docjson, _ = sjson.Set(docjson, "info", h)
 	}
 
-	index, err := template.New("swagger_index.html").Parse(redocTpl)
+	index, err := template.New("redoc_index.html").Parse(redocTpl)
 	if err != nil {
 		panic(fmt.Errorf("fiber: swagger middleware error -> %w", err))
 	}

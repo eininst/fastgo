@@ -6,7 +6,7 @@ import (
 
 var graph inject.Graph
 
-func Inject(objects ...interface{}) {
+func Inject(objects ...any) {
 	for _, obj := range objects {
 		err := graph.Provide(&inject.Object{Value: obj})
 		if err != nil {
@@ -19,4 +19,8 @@ func Populate() {
 	if err := graph.Populate(); err != nil {
 		panic(err)
 	}
+}
+
+func Objects() []*inject.Object {
+	return graph.Objects()
 }

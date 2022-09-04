@@ -1,7 +1,7 @@
 package user
 
 import (
-	"fmt"
+	"github.com/eininst/flog"
 	"github.com/eininst/rlock"
 	"github.com/go-redis/redis/v8"
 	"gorm.io/gorm"
@@ -22,11 +22,9 @@ func NewUserService() UserService {
 }
 
 func (us *userService) Add() {
-	fmt.Println(us.RedisClient)
-	fmt.Println(us.DB)
-	fmt.Println(us.Rlock)
-	fmt.Println("add")
+	flog.Info("add123")
 }
+
 func (us *userService) Update() {
 
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/tls"
 	"fmt"
+	"github.com/eininst/flog"
 	"github.com/gofiber/fiber/v2"
 	"github.com/valyala/fasthttp/reuseport"
 	"log"
@@ -29,7 +30,7 @@ func IsReload() bool {
 
 var DefaultTimeout = time.Second * 10
 
-var pidMap map[int]int
+var pids []int
 
 func Listen(app *fiber.App, addr string, timeout ...time.Duration) {
 	t := DefaultTimeout
@@ -38,9 +39,9 @@ func Listen(app *fiber.App, addr string, timeout ...time.Duration) {
 	}
 	go func() {
 		if app.Config().Prefork {
-			pidMap = make(map[int]int)
+			pids = []int{}
 			app.Hooks().OnFork(func(i int) error {
-				pidMap[i] = i
+				pids = append(pids, i)
 				return nil
 			})
 			_ = app.Listen(addr)
@@ -63,9 +64,9 @@ func ListenTLS(app *fiber.App, addr string, certFile, keyFile string, timeout ..
 	}
 	go func() {
 		if app.Config().Prefork {
-			pidMap = make(map[int]int)
+			pids = []int{}
 			app.Hooks().OnFork(func(i int) error {
-				pidMap[i] = i
+				pids = append(pids, i)
 				return nil
 			})
 			_ = app.ListenTLS(addr, certFile, keyFile)
@@ -114,15 +115,17 @@ func listenSig(app *fiber.App, timeout time.Duration) {
 		signal.Notify(c, syscall.SIGTERM, syscall.SIGUSR2)
 		for {
 			sig := <-c
+			flog.Info("SIGN:", sig)
 			switch sig {
 			case syscall.SIGTERM:
+
 				if app.Config().Prefork {
 					stopChild(timeout)
 					_ = app.Shutdown()
 				} else {
 					stop(app, timeout)
 				}
-				log.Println("Grace Shutdown Success")
+				flog.Info("Grace Shutdown Success!")
 				return
 			case syscall.SIGUSR2:
 				f, _ := os.Create(FIBER_CHILD_LOCK_FILE)
@@ -131,7 +134,7 @@ func listenSig(app *fiber.App, timeout time.Duration) {
 				if app.Config().Prefork {
 					stopChild(timeout)
 					_ = app.Shutdown()
-					for key := range pidMap {
+					for _, key := range pids {
 						_ = syscall.Kill(key, syscall.SIGINT)
 					}
 				} else {
@@ -164,13 +167,16 @@ func stop(app *fiber.App, timeout time.Duration) {
 
 }
 func stopChild(timeout time.Duration) {
-	for key := range pidMap {
+	pidMap := make(map[int]int)
+	for _, key := range pids {
 		_ = syscall.Kill(key, syscall.SIGTERM)
+		pidMap[key] = key
 	}
 	ctx, cancel := context.WithTimeout(context.TODO(), timeout)
 	defer cancel()
+
 	for {
-		time.Sleep(time.Millisecond * 100)
+		time.Sleep(time.Millisecond * 500)
 		select {
 		case <-ctx.Done():
 			return
@@ -180,15 +186,22 @@ func stopChild(timeout time.Duration) {
 				break
 			}
 			sarr := strings.Split(string(content), "\n")
-			okCount := 0
+
+			sax := map[int]int{}
 			for _, id := range sarr {
 				if v, err := strconv.Atoi(id); err == nil {
-					if _, ok := pidMap[v]; ok {
-						okCount += 1
-					}
+					sax[v] = v
 				}
 			}
-			if okCount == len(pidMap) {
+
+			okCount := 0
+			for id := range sax {
+				if _, ok := pidMap[id]; ok {
+					okCount += 1
+				}
+			}
+
+			if okCount == len(pids) {
 				cancel()
 				return
 			}

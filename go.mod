@@ -3,7 +3,7 @@ module fastgo
 go 1.19
 
 require (
-	github.com/eininst/flog v0.0.0-20220829182650-8148d2585f9f
+	github.com/eininst/flog v0.0.0-20220904015833-72d9a1bb9083
 	github.com/eininst/rlock v0.0.0-20220829185820-f6407d7f5eec
 	github.com/eininst/rs v0.0.0-20220902131028-5720fd687f78
 	github.com/facebookgo/inject v0.0.0-20180706035515-f23751cae28b

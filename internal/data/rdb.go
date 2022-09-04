@@ -38,7 +38,10 @@ func NewRedisClient() *redis.Client {
 	if err != nil {
 		log.Fatal("Unbale to connect to Redis", err)
 	}
-	flog.Info("Connected to Redis server...")
-
+	flog.With(flog.Fields{
+		"addr":     rconf.Addr,
+		"db":       rconf.Db,
+		"poolSize": rconf.PoolSize,
+	}).Debug("Connected to Redis server...")
 	return rcli
 }

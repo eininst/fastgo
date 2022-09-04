@@ -1,6 +1,4 @@
-export ENV=$1
-#make login
-#make init
+export APP=$1
 
 make build app=nginx f=nginx/Dockerfile
 make build app=helloword
@@ -12,3 +10,6 @@ make deploy yml=nginx
 make deploy yml=api
 
 docker service ls
+
+
+make fab app=helloword yml=api
