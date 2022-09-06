@@ -7,7 +7,7 @@ import (
 )
 
 func init() {
-	di.Inject(&HellowordApi{})
+	di.Inject(new(HellowordApi))
 }
 
 type HellowordApi struct {

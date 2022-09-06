@@ -27,16 +27,21 @@ func NewRsClient(rcli *redis.Client) rs.Client {
 	rstr := configs.Get("rs").String()
 	_ = json.Unmarshal([]byte(rstr), &c)
 
-	r := c.Receive
-	return rs.New(rcli, rs.Config{
-		Prefix: c.Prefix,
-		Sender: c.Sender,
-		Receive: rs.ReceiveConfig{
+	rcv := rs.DefaultReceiveCfg
+	if c.Receive != (rconf{}) {
+		r := c.Receive
+		rcv = rs.ReceiveConfig{
 			Work:       rs.Int(r.Work),
 			MaxRetries: rs.Int64(r.MaxRetries),
 			ReadCount:  rs.Int64(r.ReadCount),
 			Timeout:    time.Second * time.Duration(r.TimeoutSecond),
 			BlockTime:  time.Second * time.Duration(r.BlockTimeSecond),
-		},
+		}
+	}
+
+	return rs.New(rcli, rs.Config{
+		Prefix:  c.Prefix,
+		Sender:  c.Sender,
+		Receive: rcv,
 	})
 }
