@@ -14,7 +14,11 @@ type HellowordApi struct {
 	UserService user.UserService `inject:""`
 }
 
-// @Router /test [post]
+// @Summary 测试swagger
+// @Tags test
+// @version 1.0
+
+// @Router / [get]
 func (h *HellowordApi) Add(c *fiber.Ctx) error {
 	h.UserService.Add()
 	return c.JSON("hello123")

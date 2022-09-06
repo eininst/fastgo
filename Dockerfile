@@ -34,7 +34,5 @@ COPY --from=builder /app /app
 
 WORKDIR /app
 
-EXPOSE 8080
-
 ENTRYPOINT ["/usr/bin/dumb-init",  "--"]
 CMD ./run

@@ -3,9 +3,9 @@ module fastgo
 go 1.19
 
 require (
-	github.com/eininst/flog v0.0.0-20220904015833-72d9a1bb9083
+	github.com/eininst/flog v0.0.0-20220904020527-6ff9b203833e
 	github.com/eininst/rlock v0.0.0-20220829185820-f6407d7f5eec
-	github.com/eininst/rs v0.0.0-20220902131028-5720fd687f78
+	github.com/eininst/rs v0.0.0-20220906035723-74a23daad4c6
 	github.com/facebookgo/inject v0.0.0-20180706035515-f23751cae28b
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gofiber/fiber/v2 v2.37.0
@@ -31,6 +31,7 @@ require (
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/ivpusic/grpool v1.0.0 // indirect
+	github.com/jinzhu/copier v0.3.5 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/klauspost/compress v1.15.9 // indirect

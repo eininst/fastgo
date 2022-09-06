@@ -118,7 +118,8 @@ func listenSig(app *fiber.App, timeout time.Duration) {
 			flog.Info("SIGN:", sig)
 			switch sig {
 			case syscall.SIGTERM:
-
+				f, _ := os.Create(FIBER_CHILD_LOCK_FILE)
+				_ = f.Close()
 				if app.Config().Prefork {
 					stopChild(timeout)
 					_ = app.Shutdown()
@@ -167,11 +168,14 @@ func stop(app *fiber.App, timeout time.Duration) {
 
 }
 func stopChild(timeout time.Duration) {
+	for key := range pidMap {
+		_ = syscall.Kill(key, syscall.SIGTERM)
+	}
 	ctx, cancel := context.WithTimeout(context.TODO(), timeout)
 	defer cancel()
 
 	for {
-		time.Sleep(time.Millisecond * 500)
+		time.Sleep(time.Millisecond * 100)
 		select {
 		case <-ctx.Done():
 			return
@@ -181,8 +185,8 @@ func stopChild(timeout time.Duration) {
 				break
 			}
 			sarr := strings.Split(string(content), "\n")
-
 			sax := map[int]int{}
+
 			for _, id := range sarr {
 				if v, err := strconv.Atoi(id); err == nil {
 					sax[v] = v

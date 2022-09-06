@@ -10,7 +10,7 @@ swagger:
 	sh $(CURDIR)/scripts/swagger.sh
 
 doc:
-	swag init -g router.go -d ./api/${app} -o ./docs -ot json --instanceName ${app}
+	swag init -g router.go -d ./api/${app} -o ./api/${app} -ot json
 
 init:
 	sh $(CURDIR)/scripts/swarm.sh

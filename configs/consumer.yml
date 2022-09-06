@@ -28,6 +28,16 @@ mysql:
   maxOpenCount: 128
   maxLifetime: 7200
 
+rs:
+  prefix: MQ_
+  sender:
+    maxLen: 100
+  receive:
+    work: 100
+    readCount: 10
+    blockTimeSecond: 20
+    maxRetries: 3
+    timeoutSecond: 300
 ---
 profile: test
 port: 8002

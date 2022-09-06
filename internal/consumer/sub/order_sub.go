@@ -17,6 +17,7 @@ type OrderSub struct {
 
 func (orderSub *OrderSub) OrderChange(ctx *rs.Context) {
 	defer ctx.Ack()
+
 	flog.Info(orderSub.RedisClient)
 	flog.Info("abc", ctx.Msg)
 }

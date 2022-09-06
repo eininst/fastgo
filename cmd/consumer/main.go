@@ -4,12 +4,11 @@ import (
 	"fastgo/configs"
 	"fastgo/internal/conf"
 	"fastgo/internal/consumer"
+	"fastgo/pkg/di"
 	"github.com/eininst/flog"
-	"github.com/eininst/rs"
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 )
 
 func init() {
@@ -18,15 +17,10 @@ func init() {
 }
 
 func main() {
-	c := consumer.New(rs.Config{
-		Receive: rs.ReceiveConfig{
-			Work:       rs.Int(10),
-			ReadCount:  rs.Int64(1),
-			BlockTime:  time.Second * 20,
-			MaxRetries: rs.Int64(3),
-			Timeout:    time.Second * 20,
-		},
-	})
+	var c consumer.Conf
+	di.Inject(&c)
+	di.Populate()
+
 	c.Subscribe()
 
 	go func() {
@@ -34,9 +28,9 @@ func main() {
 		signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
 		<-quit
 
-		c.Client.Shutdown()
+		c.Cli.Shutdown()
 		flog.Info("Graceful Shutdown")
 	}()
 
-	c.Client.Listen()
+	c.Cli.Listen()
 }
