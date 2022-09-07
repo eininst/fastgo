@@ -3,12 +3,12 @@ package main
 import (
 	"fastgo/api/helloword"
 	"fastgo/configs"
-	"fastgo/internal/common/grace"
 	"fastgo/internal/common/inject"
-	"fastgo/internal/common/middleware/burst"
 	"fastgo/internal/common/middleware/redoc"
 	"fastgo/internal/conf"
 	"fmt"
+	burst "github.com/eininst/fiber-middleware-burst"
+	grace "github.com/eininst/fiber-prefork-grace"
 	"github.com/eininst/flog"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -33,7 +33,7 @@ func main() {
 		ReadTimeout: time.Second * 10,
 	})
 	r.Use(burst.New(burst.Config{
-		Limiter: rate.NewLimiter(rate.Every(time.Millisecond*100), 20),
+		Limiter: rate.NewLimiter(200, 500),
 		Timeout: time.Second * 5,
 	}))
 

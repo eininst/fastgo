@@ -3,7 +3,6 @@ module fastgo
 go 1.19
 
 require (
-	github.com/eininst/fiber-boot v0.0.0-20220906185032-91bf6f3c0cbd
 	github.com/eininst/flog v0.0.0-20220904020527-6ff9b203833e
 	github.com/eininst/rlock v0.0.0-20220829185820-f6407d7f5eec
 	github.com/eininst/rs v0.0.0-20220906035723-74a23daad4c6
@@ -23,6 +22,8 @@ require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
+	github.com/eininst/fiber-middleware-burst v0.0.0-20220907230259-b0de0887be61 // indirect
+	github.com/eininst/fiber-prefork-grace v0.0.0-20220907224130-bb6e2261dfae // indirect
 	github.com/facebookgo/structtag v0.0.0-20150214074306-217e25fb9691 // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
@@ -40,5 +41,5 @@ require (
 	github.com/valyala/fasttemplate v1.2.1 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	golang.org/x/net v0.0.0-20220826154423-83b083e8dc8b // indirect
-	golang.org/x/sys v0.0.0-20220829200755-d48e67d00261 // indirect
+	golang.org/x/sys v0.0.0-20220907062415-87db552b00fd // indirect
 )

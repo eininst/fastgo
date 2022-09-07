@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fastgo/common/inject"
 	"fastgo/configs"
 	"fastgo/consumer"
+	"fastgo/internal/common/inject"
 	"fastgo/internal/conf"
 	"github.com/eininst/flog"
 	"os"

@@ -1,7 +1,7 @@
 package v1
 
 import (
-	"fastgo/common/inject"
+	"fastgo/internal/common/inject"
 	"fastgo/internal/service/user"
 	"github.com/gofiber/fiber/v2"
 )
