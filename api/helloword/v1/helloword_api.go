@@ -1,13 +1,13 @@
 package v1
 
 import (
+	"fastgo/common/inject"
 	"fastgo/internal/service/user"
-	"fastgo/pkg/di"
 	"github.com/gofiber/fiber/v2"
 )
 
 func init() {
-	di.Inject(new(HellowordApi))
+	inject.Provide(new(HellowordApi))
 }
 
 type HellowordApi struct {
@@ -20,6 +20,9 @@ type HellowordApi struct {
 
 // @Router / [get]
 func (h *HellowordApi) Add(c *fiber.Ctx) error {
-	h.UserService.Add()
+	er := h.UserService.Add()
+	if er != nil {
+		return er
+	}
 	return c.JSON("hello123")
 }

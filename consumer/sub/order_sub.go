@@ -1,14 +1,14 @@
 package sub
 
 import (
-	"fastgo/pkg/di"
+	fboot "github.com/eininst/fiber-boot"
 	"github.com/eininst/flog"
 	"github.com/eininst/rs"
 	"github.com/go-redis/redis/v8"
 )
 
 func init() {
-	di.Inject(&OrderSub{})
+	fboot.Provide(&OrderSub{})
 }
 
 type OrderSub struct {

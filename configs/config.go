@@ -12,7 +12,7 @@ import (
 var data map[string]any
 var ret gjson.Result
 
-func Setup(conf_path string) {
+func SetConfig(conf_path string) {
 	profile := os.Getenv("ENV")
 	if profile == "" {
 		profile = "dev"

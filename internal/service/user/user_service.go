@@ -1,14 +1,14 @@
 package user
 
 import (
-	"github.com/eininst/flog"
+	"fastgo/internal/types"
 	"github.com/eininst/rlock"
 	"github.com/go-redis/redis/v8"
 	"gorm.io/gorm"
 )
 
 type UserService interface {
-	Add()
+	Add() error
 	Update()
 }
 type userService struct {
@@ -21,8 +21,9 @@ func NewUserService() UserService {
 	return &userService{}
 }
 
-func (us *userService) Add() {
-	flog.Info("add123")
+func (us *userService) Add() error {
+	panic("weweww")
+	return types.NewServiceError("my name is error")
 }
 
 func (us *userService) Update() {

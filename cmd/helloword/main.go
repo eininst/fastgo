@@ -2,16 +2,18 @@ package main
 
 import (
 	"fastgo/api/helloword"
+	"fastgo/common/burst"
+	"fastgo/common/grace"
+	"fastgo/common/inject"
+	"fastgo/common/redoc"
 	"fastgo/configs"
 	"fastgo/internal/conf"
-	"fastgo/pkg/app"
-	"fastgo/pkg/burst"
-	"fastgo/pkg/redoc"
 	"fmt"
 	"github.com/eininst/flog"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 	"golang.org/x/time/rate"
 	"net/http"
 	"time"
@@ -21,12 +23,12 @@ func init() {
 	logf := "%s[${pid}]%s ${time} ${level} ${path} ${msg}"
 	flog.SetFormat(fmt.Sprintf(logf, flog.Cyan, flog.Reset))
 
-	configs.Setup("./configs/helloword.yml")
-	conf.Inject()
+	configs.SetConfig("./configs/helloword.yml")
+	conf.Provide()
 }
 
 func main() {
-	r := app.New(fiber.Config{
+	r := fiber.New(fiber.Config{
 		Prefork:     true,
 		ReadTimeout: time.Second * 10,
 	})
@@ -48,7 +50,12 @@ func main() {
 
 	r.Get("/metrics", monitor.New(monitor.Config{Title: "MyService Metrics Page"}))
 
-	r.Install(&helloword.Api{})
+	r.Use(recover.New())
 
-	r.Listen(":8080")
+	var api helloword.Api
+	inject.Provide(&api)
+	inject.Populate()
+	api.Router(r)
+
+	grace.Listen(r, "8080")
 }

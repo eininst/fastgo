@@ -4,7 +4,7 @@ namespace = eininst
 group = g
 
 start:
-	sh $(CURDIR)/build/start.sh ${env}
+	sh $(CURDIR)/scripts/start.sh ${env}
 
 swagger:
 	sh $(CURDIR)/scripts/swagger.sh

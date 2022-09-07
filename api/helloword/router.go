@@ -10,5 +10,5 @@ type Api struct {
 }
 
 func (api *Api) Router(r fiber.Router) {
-	r.Get("/accounts/:id", api.Helloword.Add)
+	r.Get("/add", api.Helloword.Add)
 }

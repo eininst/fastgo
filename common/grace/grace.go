@@ -2,14 +2,11 @@ package grace
 
 import (
 	"context"
-	"crypto/tls"
 	"fmt"
 	"github.com/eininst/flog"
 	"github.com/gofiber/fiber/v2"
-	"github.com/valyala/fasthttp/reuseport"
 	"log"
 	"os"
-	"os/exec"
 	"os/signal"
 	"strconv"
 	"strings"
@@ -18,15 +15,6 @@ import (
 )
 
 const FIBER_CHILD_LOCK_FILE = "/tmp/fiber_child.lock"
-
-const (
-	envReload    = "FIBER_ENV_RELOAD"
-	envReloadVal = "1"
-)
-
-func IsReload() bool {
-	return os.Getenv(envReload) == envReloadVal
-}
 
 var DefaultTimeout = time.Second * 10
 
@@ -46,12 +34,7 @@ func Listen(app *fiber.App, addr string, timeout ...time.Duration) {
 			})
 			_ = app.Listen(addr)
 		} else {
-			if IsReload() {
-				ln, _ := reuseport.Listen(app.Config().Network, addr)
-				_ = app.Listener(ln)
-			} else {
-				_ = app.Listen(addr)
-			}
+			_ = app.Listen(addr)
 		}
 	}()
 	listenSig(app, t)
@@ -71,19 +54,7 @@ func ListenTLS(app *fiber.App, addr string, certFile, keyFile string, timeout ..
 			})
 			_ = app.ListenTLS(addr, certFile, keyFile)
 		} else {
-			if IsReload() {
-				cert, _ := tls.LoadX509KeyPair(certFile, keyFile)
-				ln, _ := reuseport.Listen(app.Config().Network, addr)
-				ln = tls.NewListener(ln, &tls.Config{
-					MinVersion: tls.VersionTLS12,
-					Certificates: []tls.Certificate{
-						cert,
-					},
-				})
-				_ = app.Listener(ln)
-			} else {
-				_ = app.ListenTLS(addr, certFile, keyFile)
-			}
+			_ = app.ListenTLS(addr, certFile, keyFile)
 		}
 	}()
 	listenSig(app, t)
@@ -128,27 +99,11 @@ func listenSig(app *fiber.App, timeout time.Duration) {
 				}
 				flog.Info("Grace Shutdown Success!")
 				return
-			case syscall.SIGUSR2:
-				f, _ := os.Create(FIBER_CHILD_LOCK_FILE)
-				_ = f.Close()
-				_ = reload()
-				if app.Config().Prefork {
-					stopChild(timeout)
-					_ = app.Shutdown()
-					for key := range pidMap {
-						_ = syscall.Kill(key, syscall.SIGINT)
-					}
-				} else {
-					stop(app, timeout)
-				}
-				log.Println("Grace Reload Success")
-				if IsReload() {
-					return
-				}
 			}
 		}
 	}
 }
+
 func stop(app *fiber.App, timeout time.Duration) {
 	ctx, cancel := context.WithTimeout(context.TODO(), timeout)
 	defer cancel()
@@ -167,6 +122,7 @@ func stop(app *fiber.App, timeout time.Duration) {
 	}
 
 }
+
 func stopChild(timeout time.Duration) {
 	for key := range pidMap {
 		_ = syscall.Kill(key, syscall.SIGTERM)
@@ -206,17 +162,6 @@ func stopChild(timeout time.Duration) {
 			}
 		}
 	}
-}
-
-func reload() error {
-	cmd := exec.Command(os.Args[0], os.Args[1:]...) // #nosec G204
-	log.Println(cmd.String())
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	cmd.Env = append(os.Environ(),
-		fmt.Sprintf("%s=%s", envReload, envReloadVal),
-	)
-	return cmd.Start()
 }
 
 func fwrite(handler func(file *os.File)) {

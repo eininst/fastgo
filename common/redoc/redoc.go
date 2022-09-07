@@ -18,9 +18,25 @@ import (
 const (
 	defaultDocURL = "doc.json"
 	defaultIndex  = "index.html"
+	defaultJs     = "https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"
+	defaultCss    = "https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700"
 )
 
-func New(docSrc string, config ...Config) fiber.Handler {
+type RedocXLogo struct {
+	URL             string `json:"url"`
+	BackgroundColor string `json:"backgroundColor"`
+	AltText         string `json:"altText"`
+}
+
+type RedocConfig struct {
+	Src    string
+	Logo   RedocXLogo
+	Theme  string
+	JsCDN  string
+	CssCDN string
+}
+
+func New(docSrc string, config ...RedocConfig) fiber.Handler {
 	buffer, err := os.ReadFile(docSrc)
 	if err != nil {
 		log.Fatal(err)
@@ -28,13 +44,20 @@ func New(docSrc string, config ...Config) fiber.Handler {
 	docjson := string(buffer)
 
 	m := fiber.Map{
-		"url":   defaultDocURL,
-		"theme": "{}",
+		"url":     defaultDocURL,
+		"js_cdn":  defaultJs,
+		"css_cdn": defaultCss,
+		"theme":   "{}",
 	}
 
 	if len(config) > 0 {
 		cfg := config[0]
-
+		if cfg.JsCDN != "" {
+			m["js_cdn"] = cfg.JsCDN
+		}
+		if cfg.CssCDN != "" {
+			m["css_cdn"] = cfg.CssCDN
+		}
 		m["theme"] = cfg.Theme
 
 		var h map[string]any
@@ -108,3 +131,30 @@ func getForwardedPrefix(c *fiber.Ctx) string {
 
 	return prefix
 }
+
+const redocTpl = `
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Redoc</title>
+    <!-- needed for adaptive design -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{{.css_cdn}}" rel="stylesheet">
+
+    <!--
+    Redoc doesn't change outer page styles
+    -->
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <redoc spec-url='{{.url}}'></redoc>
+    <script src="{{.js_cdn}}"> </script>
+  </body>
+</html>
+`

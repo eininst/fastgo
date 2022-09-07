@@ -130,13 +130,13 @@ RUN     addgroup -S nginx \
         && ln -sf /dev/stderr /var/log/nginx/error.log
 
 RUN mkdir /etc/nginx/conf.d
-RUN mkdir /etc/nginx/website
+RUN mkdir /etc/nginx/web
 RUN mkdir /etc/nginx/ssl
 
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 COPY nginx/conf /etc/nginx/conf.d/
 COPY nginx/ssl /etc/nginx/ssl/
-COPY website /etc/nginx/website/
+COPY web /etc/nginx/web/
 
 EXPOSE 80 443
 

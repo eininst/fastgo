@@ -1,7 +1,7 @@
 package consumer
 
 import (
-	"fastgo/internal/consumer/sub"
+	"fastgo/consumer/sub"
 	"github.com/eininst/rs"
 )
 

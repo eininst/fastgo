@@ -1,10 +1,10 @@
 package main
 
 import (
+	"fastgo/common/inject"
 	"fastgo/configs"
+	"fastgo/consumer"
 	"fastgo/internal/conf"
-	"fastgo/internal/consumer"
-	"fastgo/pkg/di"
 	"github.com/eininst/flog"
 	"os"
 	"os/signal"
@@ -12,14 +12,14 @@ import (
 )
 
 func init() {
-	configs.Setup("./configs/consumer.yml")
-	conf.Inject()
+	configs.SetConfig("./configs/consumer.yml")
+	conf.Provide()
 }
 
 func main() {
 	var c consumer.Conf
-	di.Inject(&c)
-	di.Populate()
+	inject.Provide(&c)
+	inject.Populate()
 
 	c.Subscribe()
 

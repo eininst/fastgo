@@ -1,4 +1,4 @@
-package di
+package inject
 
 import (
 	"github.com/facebookgo/inject"
@@ -6,15 +6,15 @@ import (
 
 var graph inject.Graph
 
-func Inject(objects ...any) {
+func Provide(objects ...any) {
 	for _, obj := range objects {
 		err := graph.Provide(&inject.Object{Value: obj})
 		if err != nil {
 			panic(err)
 		}
 	}
-
 }
+
 func Populate() {
 	if err := graph.Populate(); err != nil {
 		panic(err)
