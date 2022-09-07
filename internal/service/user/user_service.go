@@ -1,7 +1,7 @@
 package user
 
 import (
-	"fastgo/internal/types"
+	"fastgo/internal/common/serr"
 	"github.com/eininst/rlock"
 	"github.com/go-redis/redis/v8"
 	"gorm.io/gorm"
@@ -23,7 +23,7 @@ func NewUserService() UserService {
 
 func (us *userService) Add() error {
 	panic("weweww")
-	return types.NewServiceError("my name is error")
+	return serr.NewServiceError("my name is error")
 }
 
 func (us *userService) Update() {

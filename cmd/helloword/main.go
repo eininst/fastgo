@@ -2,11 +2,11 @@ package main
 
 import (
 	"fastgo/api/helloword"
-	"fastgo/common/burst"
-	"fastgo/common/grace"
-	"fastgo/common/inject"
-	"fastgo/common/redoc"
 	"fastgo/configs"
+	"fastgo/internal/common/grace"
+	"fastgo/internal/common/inject"
+	"fastgo/internal/common/middleware/burst"
+	"fastgo/internal/common/middleware/redoc"
 	"fastgo/internal/conf"
 	"fmt"
 	"github.com/eininst/flog"

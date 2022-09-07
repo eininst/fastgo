@@ -1,7 +1,7 @@
 package conf
 
 import (
-	"fastgo/common/inject"
+	"fastgo/internal/common/inject"
 	"fastgo/internal/data"
 	"fastgo/internal/service/user"
 	"github.com/eininst/rlock"
