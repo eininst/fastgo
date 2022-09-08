@@ -4,12 +4,12 @@ import (
 	"fastgo/api/helloword"
 	"fastgo/configs"
 	"fastgo/internal/common/inject"
-	"fastgo/internal/common/middleware/redoc"
 	"fastgo/internal/common/serr"
 	"fastgo/internal/conf"
 	"fmt"
 	burst "github.com/eininst/fiber-middleware-burst"
 	recovers "github.com/eininst/fiber-middleware-recover"
+	redoc "github.com/eininst/fiber-middleware-redoc"
 	grace "github.com/eininst/fiber-prefork-grace"
 	"github.com/eininst/flog"
 	"github.com/gofiber/fiber/v2"
@@ -47,7 +47,7 @@ func main() {
 		return ctx.SendStatus(http.StatusOK)
 	})
 
-	r.Get("/doc/*", redoc.New("api/helloword/swagger.json"))
+	r.Get("/rdoc/*", redoc.New("api/helloword/swagger.json"))
 
 	r.Get("/metrics", monitor.New(monitor.Config{Title: "MyService Metrics Page"}))
 
