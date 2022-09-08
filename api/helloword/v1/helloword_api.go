@@ -17,7 +17,6 @@ type HellowordApi struct {
 // @Summary 测试swagger
 // @Tags test
 // @version 1.0
-
 // @Router / [get]
 func (h *HellowordApi) Add(c *fiber.Ctx) error {
 	er := h.UserService.Add()

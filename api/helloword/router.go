@@ -11,4 +11,6 @@ type Api struct {
 
 func (api *Api) Router(r fiber.Router) {
 	r.Get("/add", api.Helloword.Add)
+
+	r.Post("/user", v1.AddUser)
 }

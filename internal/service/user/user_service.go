@@ -22,7 +22,6 @@ func NewUserService() UserService {
 }
 
 func (us *userService) Add() error {
-	panic("weweww")
 	return serr.NewServiceError("my name is error")
 }
 

@@ -15,3 +15,7 @@ const (
 	YES  = 1
 	NO   = 0
 )
+
+const (
+	ERROR_PARAMETER = 100
+)
