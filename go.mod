@@ -23,7 +23,7 @@ require (
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/eininst/fiber-middleware-burst v0.0.0-20220907230259-b0de0887be61 // indirect
-	github.com/eininst/fiber-middleware-recover v0.0.0-20220908075057-b3992dc487d4 // indirect
+	github.com/eininst/fiber-middleware-recover v0.0.0-20220908091051-7ffa92c8800e // indirect
 	github.com/eininst/fiber-prefork-grace v0.0.0-20220907224130-bb6e2261dfae // indirect
 	github.com/facebookgo/structtag v0.0.0-20150214074306-217e25fb9691 // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect

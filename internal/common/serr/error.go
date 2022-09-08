@@ -3,7 +3,6 @@ package serr
 import (
 	"encoding/json"
 	"errors"
-	"fastgo/internal/code"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -21,9 +20,6 @@ func (e *ServiceError) Error() string {
 	return string(jbytes)
 }
 
-func NewDataNotFound() error {
-	return NewServiceError("data not found", code.ERROR_DATA_NOT_FOUND)
-}
 func NewServiceError(message interface{}, code ...int) error {
 	cd := 0
 	if len(code) > 0 {

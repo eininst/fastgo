@@ -18,6 +18,8 @@ github.com/eininst/fiber-middleware-recover v0.0.0-20220908074311-e76d787ffe99 h
 github.com/eininst/fiber-middleware-recover v0.0.0-20220908074311-e76d787ffe99/go.mod h1:k1HUtyUpc26Whh/cCzff2P84IIdkGz4SBMzTvQA6r9w=
 github.com/eininst/fiber-middleware-recover v0.0.0-20220908075057-b3992dc487d4 h1:tJETDNLuxlgWq3mcYOtZ/pFF5DCwNiWJ7aIqOrHbbX0=
 github.com/eininst/fiber-middleware-recover v0.0.0-20220908075057-b3992dc487d4/go.mod h1:k1HUtyUpc26Whh/cCzff2P84IIdkGz4SBMzTvQA6r9w=
+github.com/eininst/fiber-middleware-recover v0.0.0-20220908091051-7ffa92c8800e h1:g6MtOPca5Wg5pL4B8WbBWQW5BAmy/vJeeBLmt9cFazE=
+github.com/eininst/fiber-middleware-recover v0.0.0-20220908091051-7ffa92c8800e/go.mod h1:k1HUtyUpc26Whh/cCzff2P84IIdkGz4SBMzTvQA6r9w=
 github.com/eininst/fiber-prefork-grace v0.0.0-20220907223035-75fb9134c8ef h1:ltTZoaHq7LDXHQQwq+qFYY2YtloJwa2d3gSpx8C12g4=
 github.com/eininst/fiber-prefork-grace v0.0.0-20220907223035-75fb9134c8ef/go.mod h1:JU9F6FJV3+pS4Kayo1QyT/HLJK82DEpJl0PLU2MrncQ=
 github.com/eininst/fiber-prefork-grace v0.0.0-20220907223558-1e1040fab344 h1:HNwuU9or8F6zE6xIHqsFvOZBlJZSdiAzjZl+PAlrbxo=
