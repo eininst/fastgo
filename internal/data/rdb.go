@@ -43,5 +43,6 @@ func NewRedisClient() *redis.Client {
 		"db":       rconf.Db,
 		"poolSize": rconf.PoolSize,
 	}).Debug("Connected to Redis server...")
+
 	return rcli
 }
