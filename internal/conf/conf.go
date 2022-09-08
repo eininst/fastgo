@@ -13,8 +13,9 @@ func Provide() {
 	inject.Provide(rcli)
 	inject.Provide(rlock.New(rcli))
 	inject.Provide(data.NewRsClient(rcli))
-	//db := data.NewDB()
-	//di.Inject(db)
+
+	db := data.NewDB()
+	inject.Provide(db)
 
 	//inject services
 	inject.Provide(user.NewUserService())

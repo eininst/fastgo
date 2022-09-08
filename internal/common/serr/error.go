@@ -3,6 +3,7 @@ package serr
 import (
 	"encoding/json"
 	"errors"
+	"fastgo/internal/code"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -20,6 +21,9 @@ func (e *ServiceError) Error() string {
 	return string(jbytes)
 }
 
+func NewDataNotFound() error {
+	return NewServiceError("data not found", code.ERROR_DATA_NOT_FOUND)
+}
 func NewServiceError(message interface{}, code ...int) error {
 	cd := 0
 	if len(code) > 0 {
@@ -33,18 +37,18 @@ func NewServiceError(message interface{}, code ...int) error {
 }
 
 func ErrorHandler(c *fiber.Ctx, err error) error {
-	code := fiber.StatusInternalServerError
+	codex := fiber.StatusInternalServerError
 	contentType := fiber.MIMETextPlainCharsetUTF8
 	var e *fiber.Error
 	var sr *ServiceError
 
 	if errors.As(err, &e) {
-		code = e.Code
+		codex = e.Code
 	} else if errors.As(err, &sr) {
-		code = fiber.StatusBadRequest
+		codex = fiber.StatusBadRequest
 		contentType = fiber.MIMEApplicationJSONCharsetUTF8
 	}
 	c.Set(fiber.HeaderContentType, contentType)
 
-	return c.Status(code).SendString(err.Error())
+	return c.Status(codex).SendString(err.Error())
 }

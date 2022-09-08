@@ -17,5 +17,6 @@ const (
 )
 
 const (
-	ERROR_PARAMETER = 100
+	ERROR_PARAMETER      = 100
+	ERROR_DATA_NOT_FOUND = 1000
 )

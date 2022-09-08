@@ -40,12 +40,9 @@ func main() {
 		Timeout: time.Second * 5,
 	}))
 
-	r.Use(recovers.New(recovers.Config{
-		Handler: func(r interface{}) *fiber.Error {
-			return fiber.NewError(fiber.StatusInternalServerError)
-		},
-	}))
+	r.Use(recovers.New())
 	r.Use(cors.New())
+
 	r.Get("/status", func(ctx *fiber.Ctx) error {
 		return ctx.SendStatus(http.StatusOK)
 	})
