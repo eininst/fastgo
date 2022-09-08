@@ -11,6 +11,8 @@ github.com/eininst/fiber-boot v0.0.0-20220906185032-91bf6f3c0cbd h1:QyJjJSHtAptM
 github.com/eininst/fiber-boot v0.0.0-20220906185032-91bf6f3c0cbd/go.mod h1:atgW/LsJymsdpws4s64+WoATfum8iKhCAmDYcj+QPuE=
 github.com/eininst/fiber-middleware-burst v0.0.0-20220907230259-b0de0887be61 h1:5X6hlgd2IlQxaTPBNZMv6yY2cBmr7kBLBSqD8KPW5Eg=
 github.com/eininst/fiber-middleware-burst v0.0.0-20220907230259-b0de0887be61/go.mod h1:RN+qaDVxXETsy4BMYKYXk0Fzc9ogzbHkuSueskniBDk=
+github.com/eininst/fiber-middleware-recover v0.0.0-20220908064701-39d21be83c4a h1:cI056yfEU/hJx1rvCRktMX84zhAkFBkheufRJzHo1QA=
+github.com/eininst/fiber-middleware-recover v0.0.0-20220908064701-39d21be83c4a/go.mod h1:k1HUtyUpc26Whh/cCzff2P84IIdkGz4SBMzTvQA6r9w=
 github.com/eininst/fiber-prefork-grace v0.0.0-20220907223035-75fb9134c8ef h1:ltTZoaHq7LDXHQQwq+qFYY2YtloJwa2d3gSpx8C12g4=
 github.com/eininst/fiber-prefork-grace v0.0.0-20220907223035-75fb9134c8ef/go.mod h1:JU9F6FJV3+pS4Kayo1QyT/HLJK82DEpJl0PLU2MrncQ=
 github.com/eininst/fiber-prefork-grace v0.0.0-20220907223558-1e1040fab344 h1:HNwuU9or8F6zE6xIHqsFvOZBlJZSdiAzjZl+PAlrbxo=
@@ -38,6 +40,8 @@ github.com/go-sql-driver/mysql v1.6.0 h1:BCTh4TKNUYmOmMUcQ3IipzF5prigylS7XXjEkfC
 github.com/go-sql-driver/mysql v1.6.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=
 github.com/gofiber/fiber/v2 v2.37.0 h1:KVboSQ7e0wDbSFXNjXKqoigwp9HYUqgWn4uGFaUO1P8=
 github.com/gofiber/fiber/v2 v2.37.0/go.mod h1:xm3pDGlfE1xqVKb77iH8weLU0FFoTeWeK3nbiYM2Nh0=
+github.com/gofiber/fiber/v2 v2.37.1 h1:QK2032gjv0ulegpv/qlTEBoXQD3eFFzCHXcNN12UZCs=
+github.com/gofiber/fiber/v2 v2.37.1/go.mod h1:j3UslgQeJQP3mNhBxHnLLE8TPqA1Fd/lrl4gD25rRUY=
 github.com/google/uuid v1.3.0 h1:t6JiXgmwXMjEs8VusXIJk2BXHsn+wx8BZdTaoZ5fu7I=
 github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/ivpusic/grpool v1.0.0 h1:+FCiCo3GhfsvzfXuJWnpJUNb/VaqyYVgG8C+qvh07Rc=

@@ -8,7 +8,7 @@ require (
 	github.com/eininst/rs v0.0.0-20220906035723-74a23daad4c6
 	github.com/facebookgo/inject v0.0.0-20180706035515-f23751cae28b
 	github.com/go-redis/redis/v8 v8.11.5
-	github.com/gofiber/fiber/v2 v2.37.0
+	github.com/gofiber/fiber/v2 v2.37.1
 	github.com/jinzhu/copier v0.3.5
 	github.com/tidwall/gjson v1.14.3
 	github.com/tidwall/sjson v1.2.5
@@ -23,6 +23,7 @@ require (
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/eininst/fiber-middleware-burst v0.0.0-20220907230259-b0de0887be61 // indirect
+	github.com/eininst/fiber-middleware-recover v0.0.0-20220908064701-39d21be83c4a // indirect
 	github.com/eininst/fiber-prefork-grace v0.0.0-20220907224130-bb6e2261dfae // indirect
 	github.com/facebookgo/structtag v0.0.0-20150214074306-217e25fb9691 // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
