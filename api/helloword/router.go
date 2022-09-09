@@ -6,11 +6,11 @@ import (
 )
 
 type Api struct {
+	App       *fiber.App       `inject:""`
 	Helloword *v1.HellowordApi `inject:""`
 }
 
-func (api *Api) Router(r fiber.Router) {
-	r.Get("/add", api.Helloword.Add)
-
-	r.Post("/user", v1.AddUser)
+func (api *Api) Init() {
+	api.App.Get("/add", api.Helloword.Add)
+	api.App.Post("/user", v1.AddUser)
 }

@@ -10,7 +10,7 @@ type Conf struct {
 	OrderSub *sub.OrderSub `inject:""`
 }
 
-func (f *Conf) Subscribe() {
+func (f *Conf) Init() {
 	f.Cli.Receive(rs.Rctx{
 		Stream:  "test",
 		Handler: f.OrderSub.OrderChange,

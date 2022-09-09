@@ -1,22 +1,22 @@
 package conf
 
 import (
-	"fastgo/internal/common/inject"
 	"fastgo/internal/data"
 	"fastgo/internal/service/user"
+	"github.com/eininst/ninja"
 	"github.com/eininst/rlock"
 )
 
 func Provide() {
 	//inject resources
 	rcli := data.NewRedisClient()
-	inject.Provide(rcli)
-	inject.Provide(rlock.New(rcli))
-	inject.Provide(data.NewRsClient(rcli))
+	ninja.Provide(rcli)
+	ninja.Provide(rlock.New(rcli))
+	ninja.Provide(data.NewRsClient(rcli))
 
-	db := data.NewDB()
-	inject.Provide(db)
+	//db := data.NewDB()
+	//inject.Provide(db)
 
 	//inject services
-	inject.Provide(user.NewUserService())
+	ninja.Provide(user.NewUserService())
 }

@@ -1,13 +1,13 @@
 package v1
 
 import (
-	"fastgo/internal/common/inject"
 	"fastgo/internal/service/user"
+	"github.com/eininst/ninja"
 	"github.com/gofiber/fiber/v2"
 )
 
 func init() {
-	inject.Provide(new(HellowordApi))
+	ninja.Provide(new(HellowordApi))
 }
 
 type HellowordApi struct {

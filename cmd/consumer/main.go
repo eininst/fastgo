@@ -3,9 +3,9 @@ package main
 import (
 	"fastgo/configs"
 	"fastgo/consumer"
-	"fastgo/internal/common/inject"
 	"fastgo/internal/conf"
 	"github.com/eininst/flog"
+	"github.com/eininst/ninja"
 	"os"
 	"os/signal"
 	"syscall"
@@ -18,10 +18,7 @@ func init() {
 
 func main() {
 	var c consumer.Conf
-	inject.Provide(&c)
-	inject.Populate()
-
-	c.Subscribe()
+	ninja.Install(&c)
 
 	go func() {
 		quit := make(chan os.Signal)
