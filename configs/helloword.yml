@@ -2,15 +2,14 @@ app: helloword
 port: 8001
 
 middleware:
-  - ready:
   - recover:
-  - logger:
-  - monitor:
   - limiter:
       rate: 10
       burst: 200
       timeout: 5s
-
+  - ready:
+  - logger:
+  - monitor:
   - swagger:
       path: "/doc/*"
       json: "./api/helloword/swagger.json"
