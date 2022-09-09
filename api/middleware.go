@@ -43,14 +43,13 @@ func InstallMiddleware(app *fiber.App, cfg ...gjson.Result) {
 	}
 
 	for _, r := range res.Array() {
-		r.ForEach(func(key, value gjson.Result) bool {
-			if handler, ok := handlerx[key.String()]; ok {
-				if value.Exists() {
-					handler(app, value)
+		for k, v := range r.Map() {
+			if handler, ok := handlerx[k]; ok {
+				if v.Exists() {
+					handler(app, v)
 				}
 			}
-			return true
-		})
+		}
 	}
 }
 
