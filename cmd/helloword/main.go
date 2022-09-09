@@ -30,7 +30,7 @@ func main() {
 		ErrorHandler: serr.ErrorHandler,
 	})
 
-	api.CommonMiddleware(app)
+	api.InstallMiddleware(app)
 
 	var hapi helloword.Api
 	ninja.Install(&hapi, app)

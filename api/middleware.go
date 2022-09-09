@@ -34,7 +34,7 @@ func Register(name string, handler MiddlewareHandler) {
 	handlerx[name] = handler
 }
 
-func CommonMiddleware(app *fiber.App, cfg ...gjson.Result) {
+func InstallMiddleware(app *fiber.App, cfg ...gjson.Result) {
 	var res gjson.Result
 	if len(cfg) > 0 {
 		res = cfg[0]
